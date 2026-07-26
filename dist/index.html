@@ -3442,7 +3442,7 @@
   </script>
   <script>
     const API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-      ? ''
+      ? 'http://localhost:8080'
       : 'https://api.shrinkr.in';
     let result = null;
     let flags = { expiry: false, clicks: false, password: false };
@@ -5889,6 +5889,21 @@
       if (name === 'my-links') initMyLinksPage();
     }
     function route() {
+      if (window.__SHRINKR_STATE__) {
+        const s = window.__SHRINKR_STATE__;
+        window._isRouting = true;
+        if (s.state === 'gone' || s.state === 'not-found') {
+          showPage('gone', { slug: s.slug, error: s.code });
+        } else if (s.state === 'unlock') {
+          showPage('unlock', { slug: s.slug });
+        } else if (s.state === 'warning' || s.state === 'blocked') {
+          showPage('warning', { slug: s.slug });
+        } else {
+          showPage('home');
+        }
+        window._isRouting = false;
+        return;
+      }
       const path = window.location.pathname;
       const hash = window.location.hash.replace('#', '');
       const src = (path && path !== '/') ? path : hash;
