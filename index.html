@@ -3128,7 +3128,7 @@
   <script>
     const API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
       ? ''                         
-      : 'https://api.shrinkr.in'; 
+      : 'https://shrinkr.in'; 
     let result = null;
     let flags = { expiry: false, clicks: false, password: false };
     let links = (() => { try { return JSON.parse(localStorage.getItem('shrinkr_links') || '[]'); } catch { return []; } })();
