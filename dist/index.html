@@ -5843,6 +5843,10 @@
         if (_zone) { _zone.style.animation = 'none'; _zone.style.opacity = '1'; }
         void document.body.offsetHeight;
       }
+      const robotsMeta = document.querySelector('meta[name="robots"]');
+      if (robotsMeta) {
+        robotsMeta.content = name === 'home' ? 'index, follow' : 'noindex, follow';
+      }
       if (homeEl) homeEl.style.display = name === 'home' ? '' : 'none';
       if (name === 'home') void homeEl?.offsetHeight;
       if (name !== 'home') {
