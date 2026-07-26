@@ -1,0 +1,39 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["*.svg", "*.png", "*.xml", "*.txt", "*.json", "*.ico"]
+  },
+  "globalHeaders": {
+    "Cache-Control": "public, max-age=0, must-revalidate",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://api.shrinkr.in; frame-ancestors 'none';"
+  },
+  "routes": [
+    {
+      "route": "/favicon.svg",
+      "headers": { "Cache-Control": "public, max-age=86400, immutable" }
+    },
+    {
+      "route": "/og-image.png",
+      "headers": { "Cache-Control": "public, max-age=86400, immutable" }
+    },
+    {
+      "route": "/favicon-32.png",
+      "headers": { "Cache-Control": "public, max-age=86400, immutable" }
+    },
+    {
+      "route": "/favicon-48.png",
+      "headers": { "Cache-Control": "public, max-age=86400, immutable" }
+    },
+    {
+      "route": "/robots.txt",
+      "headers": { "Cache-Control": "public, max-age=86400" }
+    },
+    {
+      "route": "/sitemap.xml",
+      "headers": { "Cache-Control": "public, max-age=86400" }
+    }
+  ]
+}
