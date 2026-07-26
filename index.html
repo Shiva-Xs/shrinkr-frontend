@@ -3470,16 +3470,16 @@
       const p = document.querySelector('.prompt-char');
       let valid = false;
       try {
-        if (/^https?:\/\
+        if (/^https?:\/\/.+/.test(val)) {
           const urlObj = new URL(val);
-        const host = urlObj.hostname;
-        valid = !!(host && /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$/.test(host));
-      }
+          const host = urlObj.hostname;
+          valid = !!(host && /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$/.test(host));
+        }
       } catch (e) {
-    }
-    p.textContent = valid ? '✓' : '›';
-    p.classList.toggle('valid', valid);
-    clearErr();
+      }
+      p.textContent = valid ? '✓' : '›';
+      p.classList.toggle('valid', valid);
+      clearErr();
     });
     window.addEventListener('scroll', () => {
       document.getElementById('nav').classList.toggle('scrolled', scrollY > 20);
@@ -3552,7 +3552,7 @@
       const url = document.getElementById('url-field').value.trim();
       clearErr();
       if (!url) return showErr('Paste a URL to shorten.');
-      if (!/^https?:\/\
+      if (!/^https?:\/\/.+/.test(url)) return showErr('Enter a valid http:// or https:// URL.');
       const body = { url };
       if (flags.expiry) {
         const d = document.getElementById('in-expiry-date').value;
