@@ -1,9 +1,0 @@
-{
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "shrinkr-frontend",
-  "compatibility_date": "2026-07-26",
-  "assets": {
-    "directory": ".",
-    "not_found_handling": "single-page-application"
-  }
-}
