@@ -1,0 +1,26 @@
+# Shrinkr
+
+> A free URL shortener with no signup and no ads. Paste a link, get a 6-character
+> short URL with an optional QR code, expiry date, click limit and password.
+
+Shrinkr is a single-page app that talks to an open-source Spring Boot backend.
+Creating a link requires no account: each link is issued with a delete token that
+is stored in the visitor's own browser and is the only way to edit or remove it.
+Every submitted URL is checked against Google Safe Browsing, and flagged links are
+blocked behind a warning page.
+
+## Pages
+
+- [Home](https://app.shrinkr.in/): Shorten a URL, with optional expiry, click limit and password.
+- [My Links](https://app.shrinkr.in/#my-links): Links created in this browser, with click stats and management.
+
+## Docs
+
+- [Backend source](https://github.com/Shiva-Xs/shrinkr-backend): Spring Boot, PostgreSQL and Redis service behind the API.
+- [Frontend source](https://github.com/Shiva-Xs/shrinkr-frontend): This single-file vanilla JS app.
+
+## Notes
+
+- No account, email or password is needed to create a short link.
+- Short links use the form https://app.shrinkr.in/<6-character-slug>.
+- Free with no ads, no trackers and no premium tier.

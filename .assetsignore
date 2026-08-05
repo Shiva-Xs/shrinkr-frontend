@@ -2,3 +2,9 @@
 .gitignore
 .DS_Store
 *.md
+# wrangler.json points assets.directory at ".", so without this the stale copy
+# of the whole site under dist/ was uploaded and publicly reachable at
+# /dist/index.html — an outdated duplicate of the app.
+dist/
+.wrangler/
+functions/

@@ -152,15 +152,39 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://api.shrinkr.in">
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" as="script"
-    crossorigin="anonymous">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap"
-    rel="stylesheet">
+  <!-- Fonts are self-hosted variable subsets (see @font-face below). The old
+       fonts.googleapis.com stylesheet was the page's only render-blocking
+       request and it gated the hero headline, i.e. LCP: HTML -> Google CSS ->
+       gstatic woff2 across two extra origins. Now they come off this origin,
+       preloaded, with the face declarations inline. -->
+  <link rel="preload" href="/fonts/cormorant-garamond.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/dm-sans.woff2" as="font" type="font/woff2" crossorigin>
   <style>
+    @font-face {
+      font-family: 'Cormorant Garamond';
+      font-style: normal;
+      font-weight: 300 400;
+      font-display: swap;
+      src: url('/fonts/cormorant-garamond.woff2') format('woff2-variations');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face {
+      font-family: 'DM Sans';
+      font-style: normal;
+      font-weight: 300 500;
+      font-display: swap;
+      src: url('/fonts/dm-sans.woff2') format('woff2-variations');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face {
+      font-family: 'JetBrains Mono';
+      font-style: normal;
+      font-weight: 400 500;
+      font-display: swap;
+      src: url('/fonts/jetbrains-mono.woff2') format('woff2-variations');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
     .sr-only {
       position: absolute;
       width: 1px;
@@ -2585,9 +2609,6 @@
       });
     })();
   </script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
-    integrity="sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ=="
-    crossorigin="anonymous"></script>
   <script>
     function _threeInit() {
       (function () {
@@ -3426,19 +3447,47 @@
         requestAnimationFrame(tick);
       })();
     }
-    function _safeThreeInit(attempt = 0) {
-      if (typeof THREE === 'undefined') {
-        if (attempt > 60) return;
-        setTimeout(() => _safeThreeInit(attempt + 1), 50);
-        return;
-      }
-      _threeInit();
+    /* The particle hero is decoration. Three.js is 121 KB from a third-party
+       origin, so it is no longer a <script> in the document — it is fetched
+       only after load, and only by clients that can actually run it.
+       Software rasterisers (SwiftShader / llvmpipe: headless browsers, VMs,
+       machines with GPU acceleration off) would burn seconds of main thread
+       per frame, so they keep the plain CSS background instead. */
+    function _canRunHero() {
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+      var gl = null;
+      try {
+        var c = document.createElement('canvas');
+        gl = c.getContext('webgl', { failIfMajorPerformanceCaveat: true })
+          || c.getContext('experimental-webgl', { failIfMajorPerformanceCaveat: true });
+      } catch (e) { gl = null; }
+      if (!gl) return false;
+      var renderer = '';
+      try {
+        var dbg = gl.getExtension('WEBGL_debug_renderer_info');
+        renderer = String((dbg && gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)) || gl.getParameter(gl.RENDERER) || '');
+      } catch (e) { renderer = ''; }
+      try { var lose = gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext(); } catch (e) { /* noop */ }
+      return !/swiftshader|llvmpipe|softpipe|software|basic render|generic renderer/i.test(renderer);
     }
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(_safeThreeInit, { timeout: 2000 });
-    } else {
-      setTimeout(_safeThreeInit, 0);
+
+    function _loadHero() {
+      if (!_canRunHero()) return;
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+      s.integrity = 'sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ==';
+      s.crossOrigin = 'anonymous';
+      s.async = true;
+      s.onload = function () { if (typeof THREE !== 'undefined') _threeInit(); };
+      document.head.appendChild(s);
     }
+
+    function _scheduleHero() {
+      if ('requestIdleCallback' in window) requestIdleCallback(_loadHero, { timeout: 2000 });
+      else setTimeout(_loadHero, 200);
+    }
+    if (document.readyState === 'complete') _scheduleHero();
+    else window.addEventListener('load', _scheduleHero, { once: true });
   </script>
   <script>
     const API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
@@ -5889,21 +5938,6 @@
       if (name === 'my-links') initMyLinksPage();
     }
     function route() {
-      if (window.__SHRINKR_STATE__) {
-        const s = window.__SHRINKR_STATE__;
-        window._isRouting = true;
-        if (s.state === 'gone' || s.state === 'not-found') {
-          showPage('gone', { slug: s.slug, error: s.code });
-        } else if (s.state === 'unlock') {
-          showPage('unlock', { slug: s.slug });
-        } else if (s.state === 'warning' || s.state === 'blocked') {
-          showPage('warning', { slug: s.slug });
-        } else {
-          showPage('home');
-        }
-        window._isRouting = false;
-        return;
-      }
       const path = window.location.pathname;
       const hash = window.location.hash.replace('#', '');
       const src = (path && path !== '/') ? path : hash;
