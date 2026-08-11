@@ -2536,12 +2536,16 @@
       </div>
       <div class="footer-col">
         <div class="footer-col-title">Features</div>
+        <!-- These were inert <span>s. They are the homepage's only internal
+             links to the guide pages, which would otherwise be orphans no
+             crawler ever reaches: the sitemap lists them, but sitemap entries
+             with zero inbound links get crawled late and rank badly. -->
         <div class="footer-links">
-          <span class="footer-link">URL shortening</span>
+          <a href="/url-shortener-without-signup" class="footer-link">URL shortening</a>
           <span class="footer-link">Click analytics</span>
-          <span class="footer-link">QR code generation</span>
-          <span class="footer-link">Password protection</span>
-          <span class="footer-link">Expiry &amp; click limits</span>
+          <a href="/qr-code-from-url" class="footer-link">QR code generation</a>
+          <a href="/password-protected-short-links" class="footer-link">Password protection</a>
+          <a href="/link-expiry-and-click-limits" class="footer-link">Expiry &amp; click limits</a>
         </div>
       </div>
       <div class="footer-col">
@@ -5913,7 +5917,14 @@
       }
       const robotsMeta = document.querySelector('meta[name="robots"]');
       if (robotsMeta) {
-        robotsMeta.content = name === 'home' ? 'index, follow' : 'noindex, follow';
+        // "home" is also the fallback for any unrecognised path, and
+        // wrangler.json's not_found_handling:"single-page-application" serves
+        // those as HTTP 200 carrying this whole homepage — so every typo'd or
+        // scraped URL was an indexable duplicate of "/". Showing home is still
+        // right for the visitor; it just must not be indexable unless the URL
+        // really is the root.
+        const isCanonicalHome = name === 'home' && window.location.pathname === '/';
+        robotsMeta.content = isCanonicalHome ? 'index, follow' : 'noindex, follow';
       }
       if (homeEl) homeEl.style.display = name === 'home' ? '' : 'none';
       if (name === 'home') void homeEl?.offsetHeight;

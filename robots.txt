@@ -6,6 +6,11 @@ Allow: /favicon.svg
 Allow: /favicon-32.png
 Allow: /favicon-48.png
 Allow: /og-image.png
+Allow: /guide.css
+Allow: /url-shortener-without-signup
+Allow: /password-protected-short-links
+Allow: /link-expiry-and-click-limits
+Allow: /qr-code-from-url
 Disallow: /manage/
 Disallow: /unlock/
 Disallow: /warning/

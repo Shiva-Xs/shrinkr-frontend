@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <title>Free QR Code From a URL - No Signup, No Watermark | Shrinkr</title>
+  <meta name="description" content="Turn any URL into a downloadable QR code for free. No account, no watermark, no expiry on the image. Every Shrinkr short link comes with one.">
+  <meta name="robots" content="index, follow">
+  <meta name="keywords" content="qr code from url, free qr code generator no signup, url to qr code, download qr code png, qr code for link">
+  <link rel="canonical" href="https://app.shrinkr.in/qr-code-from-url">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <meta property="og:title" content="Free QR Code From a URL - No Signup, No Watermark">
+  <meta property="og:description" content="Turn any URL into a downloadable QR code for free. Every Shrinkr short link comes with one.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://app.shrinkr.in/qr-code-from-url">
+  <meta property="og:site_name" content="Shrinkr">
+  <meta property="og:image" content="https://app.shrinkr.in/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Free QR Code From a URL - No Signup, No Watermark">
+  <meta name="twitter:description" content="Turn any URL into a downloadable QR code for free. Every Shrinkr short link comes with one.">
+  <meta name="twitter:image" content="https://app.shrinkr.in/og-image.png">
+  <link rel="stylesheet" href="/guide.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I turn a URL into a QR code?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Shorten the URL, then use the QR code button on the result. The code is generated on demand and can be downloaded as an image. There is no signup and no watermark."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will the QR code stop working later?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The image never expires, because it is just an encoding of the short URL. It keeps working for as long as that short link does, so a link with no expiry date and no click cap has a QR code that works indefinitely."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I change where the QR code points after printing it?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Not currently. The destination of an existing link is fixed, so a printed code cannot be repointed. Expiry, click limit and password are the settings that remain editable from the manage page."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why encode a short link instead of the original URL?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Shorter input means fewer modules in the code, which makes it visually simpler and far more tolerant of bad lighting, low print resolution and being scanned at an angle. Encoding a long URL directly produces a dense code that fails more often in practice."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a class="brand" href="/">shrinkr</a>
+      <nav>
+        <a href="/">Shorten a link</a>
+        <a href="https://github.com/Shiva-Xs/shrinkr-backend">GitHub</a>
+      </nav>
+    </header>
+
+    <main>
+      <p class="eyebrow">Guide</p>
+      <h1>QR code from a URL</h1>
+      <p class="lede">
+        Every link you shorten with Shrinkr comes with a QR code you can download and use anywhere. No
+        account, no watermark, and no trial that quietly breaks the image later.
+      </p>
+
+      <p>
+        Shorten your URL, then press the QR button on the result. The code is generated on demand from the
+        short link, so it is ready immediately and there is nothing to configure.
+      </p>
+
+      <div class="cta-row">
+        <a class="cta" href="/">Get a QR code &rarr;</a>
+      </div>
+
+      <h2>Why the short link makes a better code</h2>
+      <p>
+        A QR code encodes text, and the more text you give it the denser the grid becomes. Encoding a long
+        URL full of campaign parameters produces a code with many small modules, and every one of them is a
+        chance to fail when the code is printed small, lit badly, or scanned at an angle.
+      </p>
+      <p>
+        A six-character short link is a fraction of that input, so the resulting code has
+        <strong>fewer, larger modules and far more tolerance for real-world scanning</strong>. This is the
+        main practical reason to shorten before generating, rather than encoding the raw URL.
+      </p>
+
+      <h2>Printing and placing codes</h2>
+      <ul>
+        <li><strong>Keep good contrast.</strong> Dark code on a light background scans best; inverting it is unreliable on some readers.</li>
+        <li><strong>Leave the quiet zone.</strong> The empty margin around the code is part of the spec — cropping it tight is a common cause of failed scans.</li>
+        <li><strong>Mind the minimum size.</strong> As a rough rule, a code needs about a tenth of its scanning distance in width, so a code read from two metres wants to be around twenty centimetres across.</li>
+        <li><strong>Test on a cheap phone.</strong> Older cameras are the real constraint, not new ones.</li>
+      </ul>
+
+      <h2>Knowing whether it worked</h2>
+      <p>
+        Because the code points at a short link, the click count on that link doubles as a scan count. Open
+        the manage page for the link and the running total tells you how much the printed code is actually
+        being used — which is usually the thing you wanted to know and cannot get from a raw URL.
+      </p>
+
+      <h2>Pairing a QR code with limits</h2>
+      <p>
+        The same link options apply. A QR code on a conference badge can point at a link with a click cap; a
+        code in a time-limited promotion can point at a link with an expiry date, so scanning it after the
+        promotion ends produces an expired page rather than a dead destination. A password works too, though
+        it makes for a slower scan-and-read experience.
+      </p>
+
+      <h2>Questions</h2>
+      <div class="faq">
+        <div class="faq-item">
+          <h3>How do I turn a URL into a QR code?</h3>
+          <p>Shorten the URL, then use the QR code button on the result. The code is generated on demand and can be downloaded as an image. There is no signup and no watermark.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Will the QR code stop working later?</h3>
+          <p>The image never expires, because it is just an encoding of the short URL. It keeps working for as long as that short link does, so a link with no expiry date and no click cap has a QR code that works indefinitely.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Can I change where the QR code points after printing it?</h3>
+          <p>Not currently. The destination of an existing link is fixed, so a printed code cannot be repointed. Expiry, click limit and password are the settings that remain editable from the manage page.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Why encode a short link instead of the original URL?</h3>
+          <p>Shorter input means fewer modules in the code, which makes it visually simpler and far more tolerant of bad lighting, low print resolution and being scanned at an angle. Encoding a long URL directly produces a dense code that fails more often in practice.</p>
+        </div>
+      </div>
+
+      <h2>Keep reading</h2>
+      <div class="related">
+        <a href="/link-expiry-and-click-limits">Links that expire or cap their clicks<span>Useful behind a printed code</span></a>
+        <a href="/password-protected-short-links">Password-protected short links<span>Put a password in front of a URL</span></a>
+        <a href="/url-shortener-without-signup">URL shortener without signup<span>How ownership works with no accounts</span></a>
+      </div>
+    </main>
+
+    <footer class="foot">
+      <a href="/">Shrinkr</a>
+      <a href="/url-shortener-without-signup">No signup</a>
+      <a href="/password-protected-short-links">Passwords</a>
+      <a href="/link-expiry-and-click-limits">Expiry</a>
+      <a href="/qr-code-from-url">QR codes</a>
+      <a href="https://github.com/Shiva-Xs/shrinkr-backend">Source</a>
+    </footer>
+  </div>
+</body>
+</html>

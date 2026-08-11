@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <title>URL Shortener Without Signup - No Account, No Email | Shrinkr</title>
+  <meta name="description" content="Shorten a link without creating an account. No email, no password, no verification step. Shrinkr gives you a short URL and a private manage token instead of a login.">
+  <meta name="robots" content="index, follow">
+  <meta name="keywords" content="url shortener without signup, url shortener no account, anonymous url shortener, shorten link without email, no login url shortener">
+  <link rel="canonical" href="https://app.shrinkr.in/url-shortener-without-signup">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <meta property="og:title" content="URL Shortener Without Signup - No Account, No Email">
+  <meta property="og:description" content="Shorten a link without creating an account. No email, no password, no verification step.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://app.shrinkr.in/url-shortener-without-signup">
+  <meta property="og:site_name" content="Shrinkr">
+  <meta property="og:image" content="https://app.shrinkr.in/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="URL Shortener Without Signup - No Account, No Email">
+  <meta name="twitter:description" content="Shorten a link without creating an account. No email, no password, no verification step.">
+  <meta name="twitter:image" content="https://app.shrinkr.in/og-image.png">
+  <link rel="stylesheet" href="/guide.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can I shorten a URL without creating an account?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Paste a URL and press shorten. There is no signup step, no email field and no verification link. The short URL is live the moment it is returned."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "If there is no account, how do I manage or delete my link later?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Every link is created with a one-time manage token. The token is stored in your browser and included in the manage URL you get at creation time. Anyone holding that token can edit the link's settings or delete it permanently, which is what replaces a password in this model."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is an anonymous URL shortener safe to click?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Every destination submitted to Shrinkr is checked against Google Safe Browsing in the background. Links that come back flagged serve an interstitial warning page instead of redirecting."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if I lose the manage token?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The link keeps working, but it can no longer be edited or deleted, because the token is the only proof of ownership. If you set an expiry date or a click limit at creation time, the link will still retire itself on schedule."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a class="brand" href="/">shrinkr</a>
+      <nav>
+        <a href="/">Shorten a link</a>
+        <a href="https://github.com/Shiva-Xs/shrinkr-backend">GitHub</a>
+      </nav>
+    </header>
+
+    <main>
+      <p class="eyebrow">Guide</p>
+      <h1>URL shortener without signup</h1>
+      <p class="lede">
+        Most link shorteners ask for an email before they will give you a short URL. Shrinkr does not
+        have accounts at all — there is nothing to sign up for, because there is nothing to sign in to.
+      </p>
+
+      <p>
+        Paste a URL, press shorten, and you get a six-character link back immediately. No email field,
+        no password to invent, no confirmation message sitting in your inbox. The link is live from the
+        moment it appears on screen.
+      </p>
+
+      <div class="cta-row">
+        <a class="cta" href="/">Shorten a link &rarr;</a>
+      </div>
+
+      <h2>Why no accounts</h2>
+      <p>
+        An account exists so a service can prove a link belongs to you. That is the only job it does
+        here, and a token does it just as well without collecting an identity. So instead of a login,
+        every link is issued with a <strong>manage token</strong> — a single secret that grants edit and
+        delete rights on that one link.
+      </p>
+      <p>
+        The token is saved in your browser and embedded in the manage URL handed to you at creation
+        time. Keep that URL and you keep control of the link. There is no password to leak, no email
+        list to breach, and no profile to delete later.
+      </p>
+
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li><strong>Paste your URL.</strong> Any <code>http</code> or <code>https</code> address.</li>
+        <li><strong>Optionally add limits.</strong> An expiry date, a maximum click count, or a password — all optional, all set before the link is created.</li>
+        <li><strong>Press shorten.</strong> You get a short link, a QR code, and a manage URL containing your token.</li>
+        <li><strong>Save the manage URL.</strong> That is your only key to editing or deleting the link later.</li>
+      </ol>
+
+      <h2>What you get without an account</h2>
+      <ul>
+        <li><strong>A six-character link</strong> drawn from a Base62 keyspace, so slugs stay short without colliding.</li>
+        <li><strong>A downloadable QR code</strong> for every link, generated on demand.</li>
+        <li><strong>Live click counts</strong> on the manage page, buffered and flushed server-side so the redirect itself stays fast.</li>
+        <li><strong>Optional password, expiry date and click cap</strong>, set at creation time.</li>
+        <li><strong>Safe Browsing checks</strong> on every destination, with a warning page for anything flagged.</li>
+      </ul>
+
+      <h2>Anonymous does not mean unsafe</h2>
+      <p>
+        Shorteners without signup have a reputation problem, because a link that hides its destination is
+        a useful thing for a bad actor to own. Shrinkr scans every submitted URL against Google Safe
+        Browsing in the background, and links that come back flagged serve a warning interstitial rather
+        than redirecting. A ten-minute sweep re-checks anything that was still pending.
+      </p>
+      <p>
+        Shorten and unlock requests are also rate limited per IP, which is generous enough that a person
+        will never notice it and tight enough that a bot cannot enumerate slugs at speed.
+      </p>
+
+      <h2>Questions</h2>
+      <div class="faq">
+        <div class="faq-item">
+          <h3>Can I shorten a URL without creating an account?</h3>
+          <p>Yes. Paste a URL and press shorten. There is no signup step, no email field and no verification link. The short URL is live the moment it is returned.</p>
+        </div>
+        <div class="faq-item">
+          <h3>If there is no account, how do I manage or delete my link later?</h3>
+          <p>Every link is created with a one-time manage token. The token is stored in your browser and included in the manage URL you get at creation time. Anyone holding that token can edit the link's settings or delete it permanently, which is what replaces a password in this model.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Is an anonymous URL shortener safe to click?</h3>
+          <p>Every destination submitted to Shrinkr is checked against Google Safe Browsing in the background. Links that come back flagged serve an interstitial warning page instead of redirecting.</p>
+        </div>
+        <div class="faq-item">
+          <h3>What happens if I lose the manage token?</h3>
+          <p>The link keeps working, but it can no longer be edited or deleted, because the token is the only proof of ownership. If you set an expiry date or a click limit at creation time, the link will still retire itself on schedule.</p>
+        </div>
+      </div>
+
+      <h2>Keep reading</h2>
+      <div class="related">
+        <a href="/password-protected-short-links">Password-protected short links<span>Put a password in front of a URL</span></a>
+        <a href="/link-expiry-and-click-limits">Links that expire or cap their clicks<span>Temporary and self-retiring links</span></a>
+        <a href="/qr-code-from-url">QR code from a URL<span>Every short link gets one</span></a>
+      </div>
+    </main>
+
+    <footer class="foot">
+      <a href="/">Shrinkr</a>
+      <a href="/url-shortener-without-signup">No signup</a>
+      <a href="/password-protected-short-links">Passwords</a>
+      <a href="/link-expiry-and-click-limits">Expiry</a>
+      <a href="/qr-code-from-url">QR codes</a>
+      <a href="https://github.com/Shiva-Xs/shrinkr-backend">Source</a>
+    </footer>
+  </div>
+</body>
+</html>

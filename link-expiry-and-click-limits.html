@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <title>Temporary Links That Expire or Cap Their Clicks | Shrinkr</title>
+  <meta name="description" content="Create a short link that stops working on a date, or after N clicks. Set an expiry or a click limit when you shorten the URL. Free, no account needed.">
+  <meta name="robots" content="index, follow">
+  <meta name="keywords" content="temporary link, link that expires, self destructing link, url with expiry date, link click limit, one time link">
+  <link rel="canonical" href="https://app.shrinkr.in/link-expiry-and-click-limits">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <meta property="og:title" content="Temporary Links That Expire or Cap Their Clicks">
+  <meta property="og:description" content="Create a short link that stops working on a date, or after N clicks. Free, no account needed.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://app.shrinkr.in/link-expiry-and-click-limits">
+  <meta property="og:site_name" content="Shrinkr">
+  <meta property="og:image" content="https://app.shrinkr.in/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Temporary Links That Expire or Cap Their Clicks">
+  <meta name="twitter:description" content="Create a short link that stops working on a date, or after N clicks. Free, no account needed.">
+  <meta name="twitter:image" content="https://app.shrinkr.in/og-image.png">
+  <link rel="stylesheet" href="/guide.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I make a link that expires?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Set an expiry date and time using the expiry option when you shorten the URL. After that instant the link stops redirecting and serves an expired page instead."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I make a single-use link?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Set the maximum click count to one. The first visitor is redirected and every visitor after that gets the expired page. Any number works, so a cap of five behaves the same way after the fifth click."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does an expired link get reused or deleted?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The slug is retired rather than recycled, so an expired short URL never silently starts pointing somewhere new. You can delete the link outright from the manage page if you prefer."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I change the expiry or click limit after creating the link?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Both are editable from the manage page using the manage token issued at creation time. You can extend a deadline, tighten a click cap, or remove either limit."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a class="brand" href="/">shrinkr</a>
+      <nav>
+        <a href="/">Shorten a link</a>
+        <a href="https://github.com/Shiva-Xs/shrinkr-backend">GitHub</a>
+      </nav>
+    </header>
+
+    <main>
+      <p class="eyebrow">Guide</p>
+      <h1>Links that expire, or stop after N clicks</h1>
+      <p class="lede">
+        Not every link should live forever. Shrinkr can retire one on a schedule — either at a date and
+        time you pick, or once it has been clicked a set number of times.
+      </p>
+
+      <p>
+        Both limits are set with the <code>--expiry</code> and <code>--max-clicks</code> options when you
+        create the link, and both are optional. A link with neither simply keeps working.
+      </p>
+
+      <div class="cta-row">
+        <a class="cta" href="/">Create a temporary link &rarr;</a>
+      </div>
+
+      <h2>Expiry by date</h2>
+      <p>
+        Pick an instant and the link redirects normally right up to it, then serves an expired page
+        afterwards. This is enforced at the data layer rather than by a cleanup job, so there is no window
+        where a link outlives its deadline: the cached copy of an expiring link has its cache lifetime
+        capped at the expiry instant, which means <strong>the cache itself cannot serve a stale
+        redirect</strong> past the deadline.
+      </p>
+
+      <h2>Expiry by click count</h2>
+      <p>
+        A maximum click count retires the link once it has been used that many times. Set it to one and you
+        have effectively a single-use link: the first visitor gets through and everyone after sees the
+        expired page.
+      </p>
+      <p>
+        Click counts are buffered server-side and flushed periodically rather than written on every hit,
+        which is what keeps redirects fast. In practice the cap is enforced promptly, but it is a limit for
+        managing distribution rather than an exact-count guarantee for a high-volume link.
+      </p>
+
+      <h2>Where this is useful</h2>
+      <ul>
+        <li><strong>Handing off a file or invite</strong> that should not stay live in a chat log forever.</li>
+        <li><strong>Time-limited campaigns</strong> where the destination will be taken down anyway and you would rather serve an expired page than a 404.</li>
+        <li><strong>Beta or preview access</strong> capped to a known number of visitors.</li>
+        <li><strong>Anything you would otherwise have to remember to delete</strong> — the link cleans up after itself.</li>
+      </ul>
+
+      <h2>Combining limits</h2>
+      <p>
+        Expiry, click limit and password are independent. Setting all three gives you a link that needs a
+        secret, dies on a date, and stops early if it gets used more than you expected — whichever
+        condition is hit first ends it.
+      </p>
+      <p>
+        Everything remains editable from the manage page as long as you hold the manage token from creation
+        time, so a deadline can be extended or a cap lifted without minting a new link.
+      </p>
+
+      <h2>Questions</h2>
+      <div class="faq">
+        <div class="faq-item">
+          <h3>How do I make a link that expires?</h3>
+          <p>Set an expiry date and time using the expiry option when you shorten the URL. After that instant the link stops redirecting and serves an expired page instead.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Can I make a single-use link?</h3>
+          <p>Set the maximum click count to one. The first visitor is redirected and every visitor after that gets the expired page. Any number works, so a cap of five behaves the same way after the fifth click.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Does an expired link get reused or deleted?</h3>
+          <p>The slug is retired rather than recycled, so an expired short URL never silently starts pointing somewhere new. You can delete the link outright from the manage page if you prefer.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Can I change the expiry or click limit after creating the link?</h3>
+          <p>Yes. Both are editable from the manage page using the manage token issued at creation time. You can extend a deadline, tighten a click cap, or remove either limit.</p>
+        </div>
+      </div>
+
+      <h2>Keep reading</h2>
+      <div class="related">
+        <a href="/password-protected-short-links">Password-protected short links<span>Add a secret on top of a deadline</span></a>
+        <a href="/url-shortener-without-signup">URL shortener without signup<span>How ownership works with no accounts</span></a>
+        <a href="/qr-code-from-url">QR code from a URL<span>Every short link gets one</span></a>
+      </div>
+    </main>
+
+    <footer class="foot">
+      <a href="/">Shrinkr</a>
+      <a href="/url-shortener-without-signup">No signup</a>
+      <a href="/password-protected-short-links">Passwords</a>
+      <a href="/link-expiry-and-click-limits">Expiry</a>
+      <a href="/qr-code-from-url">QR codes</a>
+      <a href="https://github.com/Shiva-Xs/shrinkr-backend">Source</a>
+    </footer>
+  </div>
+</body>
+</html>
