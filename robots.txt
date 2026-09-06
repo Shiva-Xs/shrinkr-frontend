@@ -1,16 +1,17 @@
+# One group, explicit intent.
+#
+# This file previously opened with an allowlist-shaped group - "Allow: /$" plus
+# a line per page - but with no "Disallow: /" for those Allows to carve out of.
+# It only behaved because Cloudflare injects its own "User-agent: *  Allow: /"
+# block above this one at the edge, and Google merges same-agent groups. The
+# intent was invisible and the next edit would have broken it.
+#
+# Everything is crawlable except the app's private routes, which are per-user
+# views with nothing to index. The Cloudflare-managed block still appears above
+# this at the edge; it is added by the platform, not from this file.
+
 User-agent: *
-Allow: /$
-Allow: /sitemap.xml
-Allow: /robots.txt
-Allow: /favicon.svg
-Allow: /favicon-32.png
-Allow: /favicon-48.png
-Allow: /og-image.png
-Allow: /guide.css
-Allow: /url-shortener-without-signup
-Allow: /password-protected-short-links
-Allow: /link-expiry-and-click-limits
-Allow: /qr-code-from-url
+Allow: /
 Disallow: /manage/
 Disallow: /unlock/
 Disallow: /warning/

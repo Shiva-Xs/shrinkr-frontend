@@ -8,3 +8,5 @@
 dist/
 .wrangler/
 functions/
+worker.js
+.claude/

@@ -1,3 +1,6 @@
 .DS_Store
 *.log
 .wrangler/
+
+# Local preview/launch config for coding agents
+.claude/
