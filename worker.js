@@ -23,7 +23,21 @@
  * this only runs for paths that would otherwise have 404ed.
  */
 
-/** Client-side routes owned by route() in index.html. */
+/**
+ * Client-side routes owned by route() in index.html.
+ *
+ * These only reach this Worker because wrangler.json sets
+ * assets.run_worker_first. Without it the asset layer answers first, and for a
+ * NAVIGATION request (Sec-Fetch-Mode: navigate) that matches no file it serves
+ * not_found_handling's 404.html without ever invoking this Worker - so every
+ * /unlock/, /warning/, /gone/, /manage/, /result/ and /my-links URL 404'd for
+ * real visitors: password links, the malware interstitial and the manage page
+ * were all unreachable.
+ *
+ * It hid because it is navigation-only. The same URL fetched without that
+ * header - curl, a health check, fetch() - ran the Worker and returned 200, so
+ * the routes looked fine from every tool except a browser.
+ */
 const SPA_ROUTES = [
   /^\/manage\/[^/]+\/?$/,
   /^\/unlock\/[^/]+\/?$/,
