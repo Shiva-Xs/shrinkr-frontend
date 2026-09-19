@@ -6157,8 +6157,9 @@
         (d.scanStatus === 'CLEAN' ? 'good' : d.scanStatus === 'FLAGGED' ? 'bad' : 'warn');
       scanCell.className = 'stat-cell ' +
         (d.scanStatus === 'CLEAN' ? 'scan-clean' : d.scanStatus === 'FLAGGED' ? 'scan-flagged' : 'scan-pending');
+      const _expires = _apiDate(d.expiresAt);
       document.getElementById('m-expires').textContent =
-        d.expiresAt ? new Date(d.expiresAt).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }) : 'Never';
+        _expires ? _expires.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }) : 'Never';
       document.getElementById('m-password').textContent =
         d.passwordProtected ? 'Set' : 'None';
       const unlockHint = document.getElementById('m-unlock-hint');
@@ -6170,9 +6171,29 @@
       } else {
         unlockHint.style.display = 'none';
       }
+      const _created = _apiDate(d.createdAt);
       document.getElementById('m-created').textContent =
-        d.createdAt ? new Date(d.createdAt).toLocaleDateString([], { dateStyle: 'medium' }) : '—';
+        _created ? _created.toLocaleDateString([], { dateStyle: 'medium' }) : '—';
     }
+    /**
+     * Parses a timestamp from the API into a real instant.
+     *
+     * The API serialises Jackson LocalDateTime, which carries no offset -
+     * "2026-09-19T11:38:32.912293" - and the server's clock is UTC. A date-time
+     * string with no offset is parsed as LOCAL time per the ECMAScript spec, so
+     * new Date(...) on that value produced the UTC wall clock relabelled as
+     * local: a link created 17:08 IST displayed as 11:38.
+     *
+     * The suffix is only added when the value does not already carry a zone, so
+     * this keeps working unchanged once the API starts sending a real offset.
+     */
+    function _apiDate(value) {
+      if (!value) return null;
+      const hasZone = /(?:Z|[+-]\d{2}:?\d{2})$/.test(value);
+      const parsed = new Date(hasZone ? value : value + 'Z');
+      return isNaN(parsed.getTime()) ? null : parsed;
+    }
+
     function mgCopyManageUrl() {
       if (!mgSlug) return;
       const saved = JSON.parse(localStorage.getItem('shrinkr_links') || '[]');
