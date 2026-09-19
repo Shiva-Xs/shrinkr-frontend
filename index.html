@@ -5869,8 +5869,21 @@
       showPage('home');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+    /**
+     * The title the server actually sent, captured before showPage can touch it.
+     *
+     * 'home' used to be the hardcoded string 'Shrinkr | Shorten. Share. Done.',
+     * which meant showPage('home') overwrote the <title> in the markup -
+     * 'Shrinkr - Free URL Shortener | No Signup, No Ads' - on every load of "/".
+     * Google indexes the RENDERED document, so the keyword-bearing title was
+     * never the one it saw; the tagline replaced it before the crawler looked.
+     *
+     * Read from the DOM rather than repeated as a literal, so the two cannot
+     * drift apart again the next time the <title> tag is edited.
+     */
+    const _homeTitle = document.title;
     const _pageTitles = {
-      'home': 'Shrinkr | Shorten. Share. Done.',
+      'home': _homeTitle,
       'manage': 'Manage Link | Shrinkr',
       'my-links': 'My Links | Shrinkr',
       'gone': 'Link Gone | Shrinkr',
@@ -5879,7 +5892,7 @@
       '404': 'Not Found | Shrinkr',
     };
     function showPage(name, params) {
-      document.title = _pageTitles[name] || 'Shrinkr | Shorten. Share. Done.';
+      document.title = _pageTitles[name] || _homeTitle;
       hideAllPages();
       if (name === 'home') {
         const _c = document.getElementById('bg-canvas');
