@@ -3516,6 +3516,24 @@
     const API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
       ? 'http://localhost:8080'
       : 'https://api.shrinkr.in';
+    /**
+     * Where short links actually live, which is neither host this page runs on.
+     *
+     * The API answers on api.shrinkr.in and the app is served from app.shrinkr.in, but a
+     * short link is shrinkr.in/{slug} - the apex, which is what the backend builds shortUrl
+     * from. Every fallback below reached for whichever of those two was in scope, so a page
+     * that could not find shortUrl in localStorage showed and copied the wrong one:
+     * api.shrinkr.in/{slug}, which resolves but is not a link to hand anyone, or
+     * app.shrinkr.in/{slug}, which is a plain 404.
+     *
+     * The manage page hits this every time it matters. It is reached through a URL carrying
+     * its own token, deliberately, so it works from any device - and on any device except
+     * the one that created the link there is no localStorage entry to read shortUrl from,
+     * so the fallback is the only path.
+     */
+    const SHORT_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+      ? 'http://localhost:8080'
+      : 'https://shrinkr.in';
     let result = null;
     let flags = { expiry: false, clicks: false, password: false };
     let links = (() => { try { return JSON.parse(localStorage.getItem('shrinkr_links') || '[]'); } catch { return []; } })();
@@ -3765,8 +3783,8 @@
       document.getElementById('r-scan').textContent = 'Scanning…';
       document.getElementById('r-scan').style.color = '';
       let shortHost;
-      try { shortHost = match.shortUrl ? new URL(match.shortUrl).host : location.host; }
-      catch { shortHost = location.host; }
+      try { shortHost = new URL(match.shortUrl || SHORT_BASE).host; }
+      catch { shortHost = new URL(SHORT_BASE).host; }
       const rUrlDim = document.querySelector('#r-url .dim');
       if (rUrlDim) rUrlDim.textContent = shortHost + '/';
       const pwHint = document.getElementById('r-pw-hint');
@@ -3830,7 +3848,7 @@
     }
     function copySlug() {
       if (!result) return;
-      const url = result.shortUrl || `${location.origin}/${result.slug}`;
+      const url = result.shortUrl || `${SHORT_BASE}/${result.slug}`;
       navigator.clipboard.writeText(url).then(() => {
         const indicator = document.getElementById('r-url-copied');
         indicator.classList.add('show');
@@ -3839,7 +3857,7 @@
     }
     function doCopy() {
       if (!result) return;
-      const url = result.shortUrl || `${location.origin}/${result.slug}`;
+      const url = result.shortUrl || `${SHORT_BASE}/${result.slug}`;
       navigator.clipboard.writeText(url).then(() => {
         const b = document.getElementById('copy-btn');
         b.textContent = '✓ Copied';
@@ -3860,7 +3878,7 @@
       showPage(_managePrevPage);
     }
     function doOpen() {
-      const url = result?.shortUrl || (result ? `${API}/${result.slug}` : null);
+      const url = result?.shortUrl || (result ? `${SHORT_BASE}/${result.slug}` : null);
       if (url) window.open(url, '_blank', 'noopener,noreferrer');
     }
     function doShortenAnother() {
@@ -6037,8 +6055,8 @@
         const saved = JSON.parse(localStorage.getItem('shrinkr_links') || '[]');
         const match = saved.find(l => l.slug === slug);
         let host;
-        try { host = match?.shortUrl ? new URL(match.shortUrl).host : (API ? new URL(API).host : location.host); }
-        catch { host = location.host; }
+        try { host = new URL(match?.shortUrl || SHORT_BASE).host; }
+        catch { host = new URL(SHORT_BASE).host; }
         dimSpan.textContent = host + '/';
       }
       document.getElementById('m-orig').textContent = '→ loading…';
@@ -6220,7 +6238,7 @@
       if (!mgSlug) return;
       const saved = JSON.parse(localStorage.getItem('shrinkr_links') || '[]');
       const match = saved.find(l => l.slug === mgSlug);
-      const url = match?.shortUrl || `${API}/${mgSlug}`;
+      const url = match?.shortUrl || `${SHORT_BASE}/${mgSlug}`;
       const btn = document.querySelector('#page-manage .btn-primary');
       navigator.clipboard.writeText(url).then(() => {
         if (!btn) return;
@@ -6245,7 +6263,7 @@
       if (!mgSlug) return;
       const saved = JSON.parse(localStorage.getItem('shrinkr_links') || '[]');
       const match = saved.find(l => l.slug === mgSlug);
-      const url = match?.shortUrl || `${API}/${mgSlug}`;
+      const url = match?.shortUrl || `${SHORT_BASE}/${mgSlug}`;
       window.open(url, '_blank', 'noopener,noreferrer');
     }
     async function mgSaveEdit() {
